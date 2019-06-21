@@ -62,6 +62,8 @@ namespace ExcelImport
         {
             uniqueColumn = lblUniqueKey1.Text;
             uniqueParameter = lblUniqueKey2.Text;
+            //CorrectUniqueKey cuk = new CorrectUniqueKey();
+            //cuk.Correct(Form1.fileName);
             MappingColumnParameter mapingColumnParameter = new MappingColumnParameter(document);
             mapingColumnParameter.ShowDialog();
             this.Close();

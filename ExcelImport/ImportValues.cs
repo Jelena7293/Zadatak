@@ -44,6 +44,7 @@ namespace ExcelImport
                             foreach (Element el in elementsOfCategory)
                             {
                                 Parameter uniqueParameter = el.LookupParameter(ShowColumnCategory.uniqueParameter);
+
                                 if (item.ToString() == uniqueParameter.AsString())
                                 {
                                     foreach (IXLCell cell in Range.Cells())
@@ -64,60 +65,24 @@ namespace ExcelImport
                                     var vrij = ws.Cell(int.Parse(cellRowAddress), int.Parse(cellColumnAddress)).Value.ToString();
                                     Parameter mappingParameter = el.LookupParameter(MappingColumnParameter.mappingParameter[i]);
 
-                                    //for (int k = 0; k < MappingColumnParameter.mappingColumn.Count; k++)
-                                    //{
-                                    //    Parameter hhhhhhh = el.LookupParameter(MappingColumnParameter.mappingParameter[k]);
-                                    //    if(hhhhhhh.IsReadOnly)
-                                    //    {
-                                    //        param += hhhhhhh.Definition.Name + ", ";
-                                    //    }
-
-                                    //}
-
                                     //mappingParameter.Set(vrij);
                                     //mappingParameter.SetValueString(vrij);
-                                    //mappingParameter.AsElementId.((ElementId)vrij as ElementId);
-                                    //mappingParameter.Set(new ElementId(Convert.ToInt16(vrij)));
                                     SetParameterValue.SetParamValue(mappingParameter, vrij);
-                                    
-                                    //TaskDialog.Show("Finish", "Successfully entered values of parameters!");
-                                    //}
-
-                                    //--------------------------------------------------------------------------------------------------------------------------
-                                    //foreach (string mappingColumn in MappingColumnParameter.mappingColumn)
-                                    //{
-                                    //    foreach (string mappingParam in MappingColumnParameter.mappingParameter)
-                                    //    {
-                                    //        if (cellCol.Value.ToString() == mappingColumn)
-                                    //        {
-                                    //            TaskDialog.Show("wwww", mappingColumn + "/" + mappingParam);
-                                    //            var cellColumnAddress = cellCol.Address.ColumnNumber.ToString();
-                                    //            var vrij = ws.Cell(int.Parse(cellRowAddress), int.Parse(cellColumnAddress)).Value.ToString();
-
-                                    //            Parameter mappingParameter = el.LookupParameter(mappingParam);
-                                    //            mappingParameter.Set(vrij);
-                                    //        }
-                                    //    }
-                                    //}
-
-
-
-
                                 }
+                                //else
+                                //{
+                                //    TaskDialog.Show("Error!", "Unique key is not correct!");
+                                //}
                             }
-                            
                         }
                         t.Commit();
                     }
 
-
                 }
-                
                 TaskDialog.Show("Finish", "Successfully entered values of parameters!");
             }
             catch(Exception ex)
             {
-                //TaskDialog.Show("ReadOnly", "Parameter " + param + " is ReadOnly!");
                 TaskDialog.Show("ReadOnly", ex.Message);
             }
         }

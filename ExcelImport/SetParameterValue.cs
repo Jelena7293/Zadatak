@@ -14,60 +14,60 @@ namespace ExcelImport
         {
             //try
             //{
-            //if (value.GetType().Equals(typeof(string)))
-            //{
-            //    if (p.SetValueString(value as string))
-            //        return;
-            //}
+                //if (value.GetType().Equals(typeof(string)))
+                //{
+                //    if (p.SetValueString(value as string))
+                //        return;
+                //}
 
-            switch (p.StorageType)
-            {
-                case StorageType.None:
-                    break;
-                case StorageType.Double:
+                switch (p.StorageType)
+                {
+                    case StorageType.None:
+                        break;
+                    case StorageType.Double:
 
-                    if (value.GetType().Equals(typeof(string)))
-                    {
-                        p.Set(double.Parse(value as string));
-                    }
-                    else
-                    {
-                        p.Set(Convert.ToDouble(value));
-                    }
-                    break;
-                case StorageType.Integer:
-                    if (value.GetType().Equals(typeof(string)))
-                    {
-                        p.Set(int.Parse(value as string));
-                    }
-                    else
-                    {
-                        p.Set(Convert.ToInt32(value));
-                    }
-                    break;
-                case StorageType.ElementId:
-                    if (value.GetType().Equals(typeof(ElementId)))
-                    {
-                        p.Set(value as ElementId);
-                    }
-                    else if (value.GetType().Equals(typeof(string)))
-                    {
-                        p.Set(new ElementId(int.Parse(value.ToString())));
-                    }
-                    else
-                    {
-                        p.Set(new ElementId(Convert.ToInt32(value)));
-                    }
-                    break;
-                case StorageType.String:
-                    p.Set(value.ToString());
-                    break;
-            }
+                        if (value.GetType().Equals(typeof(string)))
+                        {
+                            p.Set(double.Parse(value as string));
+                        }
+                        else
+                        {
+                            p.Set(Convert.ToDouble(value));
+                        }
+                        break;
+                    case StorageType.Integer:
+                        if (value.GetType().Equals(typeof(string)))
+                        {
+                            p.Set(int.Parse(value as string));
+                        }
+                        else
+                        {
+                            p.Set(Convert.ToInt32(value));
+                        }
+                        break;
+                    case StorageType.ElementId:
+                        if (value.GetType().Equals(typeof(ElementId)))
+                        {
+                            p.Set(value as ElementId);
+                        }
+                        else if (value.GetType().Equals(typeof(string)))
+                        {
+                            p.Set(new ElementId(int.Parse(value.ToString())));
+                        }
+                        else
+                        {
+                            p.Set(new ElementId(Convert.ToInt32(value)));
+                        }
+                        break;
+                    case StorageType.String:
+                        p.Set(value.ToString());
+                        break;
+                }
             //}
-            //catch(Exception ex)
+            //catch (Exception ex)
             //{
             //    //throw new Exception("Invalid Value Input!");
-            //    TaskDialog.Show("Exception", ex.Message);
+            //    TaskDialog.Show("Exception", ex.Message + " Parameter storage type is: " + p.StorageType);
             //}
         }
     }

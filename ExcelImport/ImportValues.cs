@@ -13,6 +13,11 @@ namespace ExcelImport
     {
         public void ImportValueToParameter(String txtFileName)
         {
+            AddValue(txtFileName);
+        }
+
+        public void AddValue(String txtFileName)
+        {
             var wb = new XLWorkbook(txtFileName);
             var ws = wb.Worksheet(1);
             var firstRowUsed = ws.FirstRowUsed();
@@ -24,10 +29,13 @@ namespace ExcelImport
             var Table = Range.AsTable();
             var cellRowAddress = "";
             var cellColumnAddress = "";
-            //string param = "";
+
             List<string> valuesParameter = Table.DataRange.Rows().Select(companyRow => companyRow.Field(ShowColumnCategory.uniqueParameter).GetString()).ToList();
-            try
+            //try
+            //{
+            using (Transaction t = new Transaction(LoadExcelFile.document, "AddValue"))
             {
+                t.Start();
                 foreach (string item in valuesParameter)
                 {
                     Categories categories = LoadExcelFile.document.Settings.Categories;
@@ -36,55 +44,59 @@ namespace ExcelImport
                     BuiltInCategory builtInCategory = (BuiltInCategory)cat.Id.IntegerValue;
                     FilteredElementCollector collector = new FilteredElementCollector(LoadExcelFile.document);
                     IList<Element> elementsOfCategory = collector.WhereElementIsNotElementType().OfCategory(builtInCategory).ToElements();
-                    using (Transaction t = new Transaction(LoadExcelFile.document, "Add value"))
+                    for (int i = 0; i < MappingColumnParameter.mappingColumn.Count; i++)
                     {
-                        t.Start();
-                        for (int i = 0; i < MappingColumnParameter.mappingColumn.Count; i++)
+                        foreach (Element el in elementsOfCategory)
                         {
-                            foreach (Element el in elementsOfCategory)
-                            {
-                                Parameter uniqueParameter = el.LookupParameter(ShowColumnCategory.uniqueParameter);
+                            Parameter uniqueParameter = el.LookupParameter(ShowColumnCategory.uniqueParameter);
 
-                                if (item.ToString() == uniqueParameter.AsString())
+                            if (item.ToString() == uniqueParameter.AsString())
+                            {
+                                foreach (IXLCell cell in Range.Cells())
                                 {
-                                    foreach (IXLCell cell in Range.Cells())
+                                    if (cell.Value.ToString() == item.ToString())
                                     {
-                                        if (cell.Value.ToString() == item.ToString())
+                                        cellRowAddress = cell.Address.RowNumber.ToString();
+                                        var row = ws.Row(int.Parse(cellRowAddress));
+                                        foreach (IXLCell cellCol in Range.FirstRow().Cells())
                                         {
-                                            cellRowAddress = cell.Address.RowNumber.ToString();
-                                            var row = ws.Row(int.Parse(cellRowAddress));
-                                            foreach (IXLCell cellCol in Range.FirstRow().Cells())
+                                            if (cellCol.Value.ToString() == MappingColumnParameter.mappingColumn[i])
                                             {
-                                                if (cellCol.Value.ToString() == MappingColumnParameter.mappingColumn[i])
-                                                {
-                                                    cellColumnAddress = cellCol.Address.ColumnNumber.ToString();
-                                                }
+                                                cellColumnAddress = cellCol.Address.ColumnNumber.ToString();
                                             }
                                         }
                                     }
-                                    var vrij = ws.Cell(int.Parse(cellRowAddress), int.Parse(cellColumnAddress)).Value.ToString();
-                                    Parameter mappingParameter = el.LookupParameter(MappingColumnParameter.mappingParameter[i]);
-
+                                }
+                                var vrij = ws.Cell(int.Parse(cellRowAddress), int.Parse(cellColumnAddress)).Value.ToString();
+                                Parameter mappingParameter = el.LookupParameter(MappingColumnParameter.mappingParameter[i]);
+                                using (SubTransaction subtr = new SubTransaction(LoadExcelFile.document))
+                                {
+                                    subtr.Start();
                                     //mappingParameter.Set(vrij);
                                     //mappingParameter.SetValueString(vrij);
                                     SetParameterValue.SetParamValue(mappingParameter, vrij);
+                                    subtr.Commit();
                                 }
-                                //else
-                                //{
-                                //    TaskDialog.Show("Error!", "Unique key is not correct!");
-                                //}
                             }
+
                         }
-                        t.Commit();
                     }
 
+
+
                 }
-                TaskDialog.Show("Finish", "Successfully entered values of parameters!");
+                t.Commit();
             }
-            catch(Exception ex)
-            {
-                TaskDialog.Show("ReadOnly", ex.Message);
-            }
+
+            TaskDialog.Show("Finish", "Successfully entered values of parameters!");
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    TaskDialog.Show("ReadOnly", ex.Message);
+
+
+            //}
         }
     }
 }

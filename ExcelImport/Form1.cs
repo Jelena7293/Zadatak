@@ -79,6 +79,7 @@ namespace ExcelImport
 
         private void BtnNext_Click(object sender, EventArgs e)
         {
+
             if (listBoxCategory.SelectedItem == null)
             {
                 TaskDialog.Show("Warning!", "Select Category!");
@@ -88,6 +89,7 @@ namespace ExcelImport
                 ShowColumnCategory showColumnCategory = new ShowColumnCategory(document);
                 showColumnCategory.ShowDialog();
             }
+
         }
 
         static BuiltInCategory[] bics =

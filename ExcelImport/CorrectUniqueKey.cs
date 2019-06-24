@@ -50,6 +50,7 @@ namespace ExcelImport
                 }
                 MappingColumnParameter mapingColumnParameter = new MappingColumnParameter(LoadExcelFile.document);
                 mapingColumnParameter.ShowDialog();
+
             }
             catch
             {

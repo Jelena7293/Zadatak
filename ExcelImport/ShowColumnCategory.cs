@@ -27,16 +27,23 @@ namespace ExcelImport
 
         private void ShowColumnCategory_Load(object sender, EventArgs e)
         {
-            Form1 form1 = new Form1();
-            groupParameter.Text = "Parameter of category " + Form1.selectedCategory;
+            try
+            {
+                Form1 form1 = new Form1();
+                groupParameter.Text = "Parameter of category " + Form1.selectedCategory;
 
-            ShowColumn showColumn = new ShowColumn();
-            showColumn.ShowColumnName(Form1.fileName, listBoxColumn);
+                ShowColumn showColumn = new ShowColumn();
+                showColumn.ShowColumnName(Form1.fileName, listBoxColumn);
 
 
-            ShowCategoryParameters showCategory = new ShowCategoryParameters();
-            showCategory.ShowCategoryName(document, listBoxCategory);
-
+                ShowCategoryParameters showCategory = new ShowCategoryParameters();
+                showCategory.ShowCategoryName(document, listBoxCategory);
+            }
+            catch
+            {
+                TaskDialog.Show("Warning!", "Selected category doesn't exist in this document!");
+                this.Close();
+            }
             
         }
 
@@ -62,12 +69,13 @@ namespace ExcelImport
         {
             uniqueColumn = lblUniqueKey1.Text;
             uniqueParameter = lblUniqueKey2.Text;
-            //CorrectUniqueKey cuk = new CorrectUniqueKey();
-            //cuk.Correct(Form1.fileName);
-            MappingColumnParameter mapingColumnParameter = new MappingColumnParameter(document);
-            mapingColumnParameter.ShowDialog();
+            CorrectUniqueKey cuk = new CorrectUniqueKey();
+            cuk.Correct(Form1.fileName);
+            //MappingColumnParameter mapingColumnParameter = new MappingColumnParameter(document);
+            //mapingColumnParameter.ShowDialog();
             this.Close();
-
         }
+
+
     }
 }

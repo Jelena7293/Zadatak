@@ -44,7 +44,7 @@ namespace ExcelImport
                 TaskDialog.Show("Warning!", "Selected category doesn't exist in this document!");
                 this.Close();
             }
-            
+
         }
 
         private void ListBoxCategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -67,13 +67,20 @@ namespace ExcelImport
 
         private void BtnNext_Click(object sender, EventArgs e)
         {
-            uniqueColumn = lblUniqueKey1.Text;
-            uniqueParameter = lblUniqueKey2.Text;
-            CorrectUniqueKey cuk = new CorrectUniqueKey();
-            cuk.Correct(Form1.fileName);
-            //MappingColumnParameter mapingColumnParameter = new MappingColumnParameter(document);
-            //mapingColumnParameter.ShowDialog();
-            this.Close();
+            try
+            {
+                uniqueColumn = lblUniqueKey1.Text;
+                uniqueParameter = lblUniqueKey2.Text;
+                CorrectUniqueKey cuk = new CorrectUniqueKey();
+                cuk.Correct(Form1.fileName);
+                //MappingColumnParameter mapingColumnParameter = new MappingColumnParameter(document);
+                //mapingColumnParameter.ShowDialog();
+                this.Close();
+            }
+            catch
+            {
+                TaskDialog.Show("Error!", "Unique key is not correct!");
+            }
         }
 
 

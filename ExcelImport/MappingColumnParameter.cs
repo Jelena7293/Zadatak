@@ -17,8 +17,7 @@ namespace ExcelImport
         private Document document;
         public static List<String> mappingParameter = new List<string>();
         public static List<String> mappingColumn = new List<string>();
-        string column = "";
-        string category = "";
+        //public static int broj;
         public MappingColumnParameter(Document document)
         {
             InitializeComponent();
@@ -43,7 +42,7 @@ namespace ExcelImport
         private void BtnAdd_Click(object sender, EventArgs e)
         {
             listBoxMapping.Items.Add(listBoxCol.SelectedItem.ToString() + " --> " + listBoxCat.SelectedItem.ToString());
-            
+            //broj++;
             mappingParameter.Add(listBoxCat.SelectedItem.ToString());
             mappingColumn.Add(listBoxCol.SelectedItem.ToString());
 
@@ -62,8 +61,8 @@ namespace ExcelImport
             //string category = text.Substring(text.IndexOf(" --> ") + 5);
 
             string[] selectedMapping = text.Split(new[] { " --> " }, StringSplitOptions.None);
-            column = selectedMapping[0];
-            category = selectedMapping[1];
+            string column = selectedMapping[0];
+            string category = selectedMapping[1];
 
             listBoxCol.Items.Add(column);
             listBoxCat.Items.Add(category);
@@ -72,7 +71,7 @@ namespace ExcelImport
             mappingParameter.Remove(category);
 
             listBoxMapping.Items.Remove(listBoxMapping.SelectedItem.ToString());
-
+            //broj--;
             if (listBoxMapping.Items.Count == 0)
             {
                 btnFinish.Enabled = false;
@@ -113,26 +112,25 @@ namespace ExcelImport
 
         private void BtnFinish_Click(object sender, EventArgs e)
         {
-            string text = listBoxMapping.Items.ToString();
-            //string column = text.Substring(0, text.IndexOf(" --> "));
-            //string category = text.Substring(text.IndexOf(" --> ") + 5);
+            //try
+            //{
+            ImportValues importValues = new ImportValues();
+            importValues.ImportValueToParameter(Form1.fileName);
 
-            string[] selectedMapping = text.Split(new[] { " --> " }, StringSplitOptions.None);
-            string column = selectedMapping[0];
-            //string category = selectedMapping[1];
-            try
-            {
-                ImportValues importValues = new ImportValues();
-                importValues.ImportValueToParameter(Form1.fileName);
+            //if (TaskDialog.Show("Finish", "Successfully entered values of parameters!", TaskDialogCommonButtons.Close) == TaskDialogResult.Close)
+            //{
+            this.Close();
+            //}
 
-                this.Close();
-            }
-            catch(Exception ex)
-            {
-                //TaskDialog.Show("Warning!", ex.Message + "******ovo treba izmjeniti");
-                TaskDialog.Show("Warning!", column +"****" + category);
-            }
+            //}
+            //catch(Exception ex)
+            ////catch
+            //{
+            //    TaskDialog.Show("Warning!", ex.Message + "******ovo treba izmjeniti");
+            //    //TaskDialog.Show("Warning!", ImportValues.imeParametra + "-" + ImportValues.tipParametra + "\n" + ImportValues.imeKolone + "-" + ImportValues.tipKolone);
+            //}
         }
+
 
 
     }

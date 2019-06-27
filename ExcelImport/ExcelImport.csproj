@@ -113,6 +113,12 @@
     </Compile>
     <Compile Include="ShowColumnMapping.cs" />
     <Compile Include="ShowParameterMapping.cs" />
+    <Compile Include="Successfully.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Successfully.Designer.cs">
+      <DependentUpon>Successfully.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="FileColumns.resx">
       <DependentUpon>FileColumns.cs</DependentUpon>
     </EmbeddedResource>
@@ -133,6 +139,9 @@
     </Compile>
     <EmbeddedResource Include="ShowColumnCategory.resx">
       <DependentUpon>ShowColumnCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Successfully.resx">
+      <DependentUpon>Successfully.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

@@ -88,8 +88,9 @@ namespace ExcelImport
             {
                 ShowColumnCategory showColumnCategory = new ShowColumnCategory(document);
                 showColumnCategory.ShowDialog();
+                //this.Close();
             }
-
+            
         }
 
         static BuiltInCategory[] bics =

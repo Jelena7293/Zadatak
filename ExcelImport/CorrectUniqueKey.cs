@@ -13,8 +13,8 @@ namespace ExcelImport
     {
         public void Correct(String txtFileName)
         {
-            try
-            {
+            //try
+            //{
                 var wb = new XLWorkbook(txtFileName);
                 var ws = wb.Worksheet(1);
                 var firstRowUsed = ws.FirstRowUsed();
@@ -51,11 +51,11 @@ namespace ExcelImport
                 MappingColumnParameter mapingColumnParameter = new MappingColumnParameter(LoadExcelFile.document);
                 mapingColumnParameter.ShowDialog();
 
-            }
-            catch
-            {
-                TaskDialog.Show("Error!", "Unique key is not correct!");
-            }
+            //}
+            //catch
+            //{
+            //    TaskDialog.Show("Error!", "Unique key is not correct!");
+            //}
 
         }
     }
